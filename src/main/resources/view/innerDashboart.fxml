@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="dashboardRoot2" prefHeight="570.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hardware.controller.InnerDashboartController">
+   <children>
+      <JFXTextField fx:id="txtSearch" focusColor="#4660ae" layoutX="973.0" layoutY="55.0" onAction="#txtSearchOnAction" prefHeight="27.0" prefWidth="192.0" text="Search Here" unFocusColor="#575656" />
+      <JFXButton layoutX="1088.0" layoutY="475.0" onAction="#btnBackOnAction" prefHeight="27.0" prefWidth="100.0" style="-fx-background-color: #40739e;" text="Back" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="140.0" layoutX="118.0" layoutY="159.0" stroke="#fcf8f8" strokeType="INSIDE" width="200.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="140.0" layoutX="689.0" layoutY="266.0" stroke="#fcf8f8" strokeType="INSIDE" width="200.0" />
+      <Label layoutX="161.0" layoutY="240.0" text="Customer Count" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="739.0" layoutY="347.0" text="Order Count" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCustomerCount" layoutX="205.0" layoutY="261.0" prefHeight="39.0" prefWidth="47.0" text="25" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderCount" layoutX="773.0" layoutY="368.0" prefHeight="39.0" prefWidth="47.0" text="25" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1138.0" layoutY="58.0">
+         <image>
+            <Image url="@../asserts.icon/search.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="176.0" layoutY="176.0">
+         <image>
+            <Image url="@../asserts.icon/customer-service.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="749.0" layoutY="273.0">
+         <image>
+            <Image url="@../asserts.icon/list-items.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="84.0" fitWidth="74.0" layoutX="899.0" layoutY="309.0">
+         <image>
+            <Image url="@../asserts.icon/back-view-man (1).png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="1074.0" layoutY="249.0">
+         <image>
+            <Image url="@../asserts.icon/financial-analysis.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="984.0" layoutY="187.0">
+         <image>
+            <Image url="@../asserts.icon/statisctics.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="1042.0" layoutY="351.0">
+         <image>
+            <Image url="@../asserts.icon/dashboard.png" />
+         </image>
+      </ImageView>
+      <Line endX="107.0" endY="-7.0" layoutX="960.0" layoutY="285.0" startX="13.0" startY="55.0" stroke="#fffefe" />
+      <Line endX="88.0" endY="-32.0" layoutX="915.0" layoutY="277.0" startX="57.2928466796875" startY="63.707122802734375" stroke="#f8f5f5" />
+      <Line endX="112.0" layoutX="919.0" layoutY="383.0" startX="52.585693359375" startY="-41.58575439453125" stroke="#fcfcfc" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="140.0" layoutX="417.0" layoutY="159.0" stroke="#fcf8f8" strokeType="INSIDE" width="200.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="140.0" layoutX="417.0" layoutY="366.0" stroke="#fcf8f8" strokeType="INSIDE" width="200.0" />
+      <Label layoutX="460.0" layoutY="236.0" text="Supplier Count" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="460.0" layoutY="446.0" text="Employee Count" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSupplierCount" layoutX="504.0" layoutY="258.0" prefHeight="39.0" prefWidth="47.0" text="25" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEmployeeCount" layoutX="507.0" layoutY="467.0" prefHeight="39.0" prefWidth="47.0" text="25" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="140.0" layoutX="118.0" layoutY="363.0" stroke="#fcf8f8" strokeType="INSIDE" width="200.0" />
+      <Label layoutX="178.0" layoutY="446.0" text="Item Count" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblItemCount" layoutX="201.0" layoutY="463.0" prefHeight="39.0" prefWidth="47.0" text="25" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ImageView layoutX="486.0" layoutY="383.0">
+         <image>
+            <Image url="@../asserts.icon/recruitment.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="179.0" layoutY="383.0">
+         <image>
+            <Image url="@../asserts.icon/inspection.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="481.0" layoutY="172.0">
+         <image>
+            <Image url="@../asserts.icon/courier.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

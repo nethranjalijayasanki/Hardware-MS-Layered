@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="itemRoot" prefHeight="570.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hardware.controller.ItemManageFormController">
+   <children>
+      <Label layoutY="33.0" opacity="0.7" prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: #3498db;" text="   Item Category Form" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="35.0" layoutX="382.0" layoutY="33.0" rotate="45.0" stroke="#3498db" strokeType="INSIDE" width="35.0" />
+      <JFXButton layoutX="1128.0" layoutY="503.0" onAction="#btnBackOnAction" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Back" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="974.0" layoutY="503.0" onAction="#btnDeleteOnAction" prefWidth="70.0" style="-fx-background-color: #e74c3c;" text="Delete" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="852.0" layoutY="503.0" onAction="#btnUpdateOnAction" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Update" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="721.0" layoutY="503.0" onAction="#btnSaveOnAction" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Save" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="82.0" layoutY="118.0" text="Item ID">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblItem" layoutX="385.0" layoutY="138.0" prefHeight="328.0" prefWidth="811.0">
+         <columns>
+            <TableColumn fx:id="colI_id" prefWidth="98.0" text="Item ID" />
+            <TableColumn fx:id="colS_id" text="Supplier ID" />
+            <TableColumn fx:id="colDescription" prefWidth="339.0" text="Description" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="137.0" text="Unit Price" />
+            <TableColumn fx:id="colQtyOnHand" prefWidth="156.0" text="Qty On Hand" />
+         </columns>
+      </TableView>
+      <Label layoutX="82.0" layoutY="205.0" text="Description">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="82.0" layoutY="296.0" text="Unit Price">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="86.0" layoutY="374.0" text="Qty On Hand">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField layoutX="1005.0" layoutY="56.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="191.0" promptText="serach by ID" />
+      <Label layoutX="85.0" layoutY="466.0" text="Supplier ID">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1169.0" layoutY="59.0">
+         <image>
+            <Image url="@../asserts.icon/search.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtI_id" layoutX="82.0" layoutY="138.0" opacity="0.75" prefHeight="25.0" prefWidth="223.0" />
+      <TextField fx:id="txtDescription" layoutX="82.0" layoutY="224.0" opacity="0.75" prefHeight="25.0" prefWidth="223.0" />
+      <TextField fx:id="txtUnitPrice" layoutX="82.0" layoutY="315.0" onKeyReleased="#txtUnitPriceOnKeyReleased" opacity="0.75" prefHeight="25.0" prefWidth="223.0" />
+      <TextField fx:id="txtQtyOnHand" layoutX="85.0" layoutY="393.0" onKeyReleased="#txtQtyOnHandOnKeyReleased" opacity="0.75" prefHeight="25.0" prefWidth="223.0" />
+      <TextField fx:id="txtS_id" layoutX="82.0" layoutY="485.0" opacity="0.75" prefHeight="25.0" prefWidth="223.0" />
+   </children>
+</AnchorPane>

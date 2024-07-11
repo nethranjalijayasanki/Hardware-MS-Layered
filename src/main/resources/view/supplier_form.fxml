@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="supplierRoot" prefHeight="570.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hardware.controller.SupplierFormController">
+   <children>
+      <Label layoutY="28.0" opacity="0.7" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #3498db;" text="    Supplier Form" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3498db" height="35.0" layoutX="280.0" layoutY="28.0" rotate="45.0" stroke="#3498db" strokeType="INSIDE" width="35.0" />
+      <JFXButton layoutX="1119.0" layoutY="510.0" onAction="#btnBackOnAction" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Back" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="84.0" layoutY="82.0" text=" ID">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="163.0" text=" Name">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="245.0" text="Company:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="325.0" text=" Tel">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="394.0" text=" Email">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblSupplier" layoutX="463.0" layoutY="146.0" prefHeight="331.0" prefWidth="726.0">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="colName" prefWidth="150.0" text="Name" />
+            <TableColumn fx:id="colCompany" prefWidth="140.0" text="Company" />
+            <TableColumn fx:id="colTel" prefWidth="131.0" text="Tel" />
+            <TableColumn fx:id="colEmail" prefWidth="229.0" text="Email" />
+         </columns>
+      </TableView>
+      <JFXButton layoutX="976.0" layoutY="510.0" onAction="#btnDeleteOnAction" prefWidth="70.0" style="-fx-background-color: #e74c3c;" text="Delete" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="860.0" layoutY="510.0" onAction="#btnUpdateOnAction" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Update" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="739.0" layoutY="510.0" onAction="#btnSaveOnAction" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #40739e;" text="Save" textFill="#f8f6f6">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <TextField layoutX="1011.0" layoutY="51.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="178.0" promptText="search by Id" />
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1162.0" layoutY="53.0">
+         <image>
+            <Image url="@../asserts.icon/search.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtId" layoutX="84.0" layoutY="101.0" opacity="0.75" prefHeight="25.0" prefWidth="273.0" />
+      <TextField fx:id="txtName" layoutX="84.0" layoutY="182.0" onKeyReleased="#txtNameOnKeyReleased" opacity="0.75" prefHeight="25.0" prefWidth="273.0" />
+      <TextField fx:id="txtCompany" layoutX="84.0" layoutY="264.0" opacity="0.75" prefHeight="25.0" prefWidth="273.0" />
+      <TextField fx:id="txtTel" layoutX="84.0" layoutY="341.0" onKeyReleased="#txtTelOnKeyReleased" opacity="0.75" prefHeight="25.0" prefWidth="273.0" />
+      <TextField fx:id="txtEmail" layoutX="84.0" layoutY="413.0" onKeyReleased="#txtEmailOnKeyReleased" opacity="0.75" prefHeight="25.0" prefWidth="273.0" />
+   </children>
+</AnchorPane>
