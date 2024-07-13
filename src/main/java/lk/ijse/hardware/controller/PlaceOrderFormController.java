@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import lk.ijse.hardware.dao.custom.impl.PlaceOrderDAOImpl;
+import lk.ijse.hardware.dto.CustomerDTO;
+import lk.ijse.hardware.dto.ItemDTO;
 import lk.ijse.hardware.entity.*;
 import lk.ijse.hardware.tm.CartTm;
 
@@ -107,6 +109,8 @@ public class PlaceOrderFormController {
     private TableView<CartTm> tblOrderCart;
 
     PlaceOrderBO placeOrderBO  = (PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PLACE_ORDER);
+    CustomerBO customerBO  = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+    ItemBo itemBo  = (ItemBo) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
@@ -131,14 +135,14 @@ public class PlaceOrderFormController {
     private void getItemId() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<String> codeList = ItemRepo.getCodes();
+            List<String> codeList = itemBo.getItemIDs();
 
             for (String code : codeList) {
                 obList.add(code);
             }
             cmbItemId.setItems(obList);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -147,7 +151,7 @@ public class PlaceOrderFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = placeOrderBO.get();
+            List<String> idList = customerBO.getCustomerIDs();
 
             for(String id : idList) {
                 obList.add(id);
@@ -155,22 +159,20 @@ public class PlaceOrderFormController {
 
             cbmCustomerId.setItems(obList);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void getCurrentOrderId() {
+    private String getCurrentOrderId() {
         try {
-            String currentId = OrderRepo.getCurrentId();
-
-            String nextOrderId = generateNextOrderId(currentId);
-            txtOId.setText(nextOrderId);
-
+            return placeOrderBO.generateNewID();
         } catch (SQLException e) {
-
-           throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        return "OID-001";
     }
 
     private String generateNextOrderId(String currentId) {
@@ -302,7 +304,7 @@ public class PlaceOrderFormController {
 
         Place_Order po = new Place_Order(order, odList);
         try {
-            boolean isPlaced = PlaceOrderBOImpl.placeOrder(po);
+            boolean isPlaced = placeOrderBO.placeOrder(po);
             if(isPlaced) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
             } else {
@@ -317,11 +319,11 @@ public class PlaceOrderFormController {
     void cmbCustomerIdOnAction(ActionEvent event) throws RuntimeException {
         String id = cbmCustomerId.getValue();
         try {
-            Customer customer = CustomerDAOImpl.searchById(id);
+            CustomerDTO customer = customerBO.searchByID(id);
 
             txtName.setText(customer.getName());
 
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -331,7 +333,7 @@ public class PlaceOrderFormController {
         String code = cmbItemId.getValue();
 
         try {
-            Item item = ItemRepo.searchById(code);
+            ItemDTO item = itemBo.searchByID(code);
             if(item != null) {
                 txtDescription.setText(item.getDescription());
                 txtUnitPrice.setText(String.valueOf(item.getUnit_price()));
@@ -340,7 +342,7 @@ public class PlaceOrderFormController {
 
             txtQty.requestFocus();
 
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

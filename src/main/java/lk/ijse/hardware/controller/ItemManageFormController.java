@@ -15,10 +15,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.hardware.model.Item;
-import lk.ijse.hardware.model.Order_Detail;
+import lk.ijse.hardware.bo.BOFactory;
+import lk.ijse.hardware.bo.custom.EmployeeBO;
+import lk.ijse.hardware.bo.custom.ItemBo;
+import lk.ijse.hardware.dto.ItemDTO;
+import lk.ijse.hardware.entity.Item;
+import lk.ijse.hardware.entity.Order_Detail;
 import lk.ijse.hardware.tm.ItemTm;
-import lk.ijse.hardware.dao.ItemRepo;
 import lk.ijse.hardware.util.Regex;
 
 import java.io.IOException;
@@ -63,6 +66,9 @@ public class ItemManageFormController {
 
     @FXML
     private TextField txtUnitPrice;
+
+    public ItemBo itemBo=(ItemBo) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
+
     public void initialize() {
 
         txtI_id.setOnKeyPressed(event -> {
@@ -96,9 +102,9 @@ public class ItemManageFormController {
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Item> itemList;
-            itemList = ItemRepo.getAll();
-            for (Item item : itemList) {
+            List<ItemDTO> itemList;
+            itemList = itemBo.getAllItem();
+            for (ItemDTO item : itemList) {
                 ItemTm tm = new ItemTm(
                         item.getI_id(),
                         item.getS_id(),
@@ -112,7 +118,7 @@ public class ItemManageFormController {
             }
 
             tblItem.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -140,11 +146,11 @@ public class ItemManageFormController {
         String i_id = txtI_id.getText();
 
         try {
-            boolean isDeleted = ItemRepo.delete(i_id);
+            boolean isDeleted = itemBo.deleteItem(i_id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -159,13 +165,13 @@ public class ItemManageFormController {
 
         try {
             isValied();
-            Item item = new Item(i_id, s_id,description, unitPrice, qtyOnHand);
-            boolean isSaved = ItemRepo.save(item);
+            ItemDTO item = new ItemDTO(i_id, s_id,description, unitPrice, qtyOnHand);
+            boolean isSaved = itemBo.addItem(item);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item saved!").show();
                 clearFields();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -187,23 +193,23 @@ public class ItemManageFormController {
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
 
 
-        Item item = new Item(i_id, s_id,description, unitPrice, qtyOnHand);
+        ItemDTO item = new ItemDTO(i_id, s_id,description, unitPrice, qtyOnHand);
 
         try {
-            boolean isUpdated = ItemRepo.update((List<Order_Detail>) item);
+            boolean isUpdated = itemBo.updateItem( item);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item updated!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     @FXML
-    void txtSearchOnAction(ActionEvent event) throws SQLException {
+    void txtSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String i_id = txtI_id.getText();
 
-        Item item = ItemRepo.searchById(i_id);
+        ItemDTO item = itemBo.searchByID(i_id);
         if (item != null) {
             txtI_id.setText(item.getI_id());
             txtS_id.setText(item.getS_id());
@@ -217,12 +223,12 @@ public class ItemManageFormController {
 
     private void getCurrentItemId() {
         try {
-            String currentId = ItemRepo.getCurrentId();
+            String currentId = itemBo.generateNewID();
 
             String nextItemId = generateNextItemId(currentId);
             txtI_id.setText(nextItemId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
 
             throw new RuntimeException(e);
         }

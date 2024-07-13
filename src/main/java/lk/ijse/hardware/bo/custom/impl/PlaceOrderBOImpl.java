@@ -9,6 +9,7 @@ import lk.ijse.hardware.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.hardware.db.DbConnection;
 import lk.ijse.hardware.dto.PlacOrderDTO;
 import lk.ijse.hardware.dto.TransportDTO;
+import lk.ijse.hardware.entity.Order_Detail;
 import lk.ijse.hardware.entity.Place_Order;
 import lk.ijse.hardware.entity.Transport;
 
@@ -78,14 +79,16 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
         Connection connection = DbConnection.getInstance().getConnection();
         connection.setAutoCommit(false);
 
+        ArrayList<Order_Detail> orderDetails = new ArrayList<>();
+
         try {
-            boolean isOrderSaved = OrderDAO.add(po.getOrder());
+            boolean isOrderSaved = orderDAO.add(po.getOrder());
             System.out.println("01"+isOrderSaved);
             if (isOrderSaved) {
-                boolean isQtyUpdated = ItemDAOImpl.updateQty(po.getOdList());
+                boolean isQtyUpdated = itemDAO.updateQty(po.getOdList());
                 System.out.println("02"+isQtyUpdated);
                 if (isQtyUpdated) {
-                    boolean isOrderDetailSaved = OrderDetailDAOImpl.save(po.getOdList());
+                    boolean isOrderDetailSaved = orderDetailDAO.add(orderDetails);
                     System.out.println("03"+isOrderDetailSaved);
                     if (isOrderDetailSaved) {
                         connection.commit();

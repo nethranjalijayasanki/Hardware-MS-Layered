@@ -75,7 +75,7 @@ public class CustomerManageFormController {
     @FXML
     private TextField txtTel;
 
-    CustomerBO customerBO=(CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+    public CustomerBO customerBO=(CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     public void initialize() {
 

@@ -18,5 +18,5 @@ public interface PlaceOrderBO extends SuperBO {
     public PlacOrderDTO searchByTel(String tell) throws SQLException, ClassNotFoundException;
     public String generateNewID() throws SQLException, ClassNotFoundException;
     public boolean existPlacOrder(String id) throws SQLException, ClassNotFoundException;
-    public boolean placeOrder(Place_Order po) throws SQLException
+    public boolean placeOrder(Place_Order po) throws SQLException;
 }

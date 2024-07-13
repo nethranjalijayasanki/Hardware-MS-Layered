@@ -14,9 +14,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.hardware.model.Transport;
+import lk.ijse.hardware.bo.BOFactory;
+import lk.ijse.hardware.bo.custom.EmployeeBO;
+import lk.ijse.hardware.bo.custom.TransportBO;
+import lk.ijse.hardware.dto.TransportDTO;
+import lk.ijse.hardware.entity.Transport;
 import lk.ijse.hardware.tm.TransportTm;
-import lk.ijse.hardware.dao.TransportRepo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -47,6 +50,9 @@ public class TransportManageFormContoller {
 
     @FXML
     private TextField txtTransId;
+
+    public TransportBO transportBO=(TransportBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.TRANSPORT);
+
     public void initialize() {
 
         txtTransId.setOnKeyPressed(event -> {
@@ -69,9 +75,9 @@ public class TransportManageFormContoller {
         ObservableList<TransportTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Transport> transportList;
-            transportList = TransportRepo.getAll();
-            for (Transport transport : transportList) {
+            List<TransportDTO> transportList;
+            transportList = transportBO.getAllTransport();
+            for (TransportDTO transport : transportList) {
                 TransportTm tm = new TransportTm(
                         transport.getT_id(),
                         transport.getD_id(),
@@ -83,7 +89,7 @@ public class TransportManageFormContoller {
             }
 
             tblTransport.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -109,11 +115,11 @@ public class TransportManageFormContoller {
         String t_id = txtTransId.getText();
 
         try {
-            boolean isDeleted = TransportRepo.delete(t_id);
+            boolean isDeleted = transportBO.deleteTransport(t_id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "transport deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -124,15 +130,15 @@ public class TransportManageFormContoller {
         String d_id = txtDriId.getText();
         String description = txtDescription.getText();
 
-        Transport transport = new Transport(t_id, d_id, description);
+        TransportDTO transport = new TransportDTO(t_id, d_id, description);
 
         try {
-            boolean isSaved = TransportRepo.save(transport);
+            boolean isSaved = transportBO.addTransport(transport);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "transport saved!").show();
                 clearFields();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -149,23 +155,23 @@ public class TransportManageFormContoller {
         String d_id = txtDriId.getText();
         String description = txtDescription.getText();
 
-        Transport transport = new Transport(t_id, d_id, description);
+        TransportDTO transport = new TransportDTO(t_id, d_id, description);
 
         try {
-            boolean isUpdated = TransportRepo.update(transport);
+            boolean isUpdated = transportBO.updateTransport(transport);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "transport updated!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     @FXML
-    void txtSearchOnAction(ActionEvent event) throws SQLException {
+    void txtSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = txtTransId.getText();
 
-        Transport transport = TransportRepo.searchById(id);
+        TransportDTO transport = transportBO.searchByID(id);
         if (transport != null) {
             txtTransId.setText(transport.getT_id());
             txtDriId.setText(transport.getD_id());
@@ -177,12 +183,12 @@ public class TransportManageFormContoller {
     }
     private void getCurrentTransportId() {
         try {
-            String currentId = TransportRepo.getCurrentId();
+            String currentId = transportBO.generateNewID();
 
             String nextTransportId = generateNextTransportId(currentId);
             txtTransId.setText(nextTransportId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
 
             throw new RuntimeException(e);
         }

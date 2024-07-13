@@ -14,10 +14,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.hardware.model.Driver;
+import lk.ijse.hardware.bo.BOFactory;
+import lk.ijse.hardware.bo.custom.CustomerBO;
+import lk.ijse.hardware.bo.custom.DriverBO;
+import lk.ijse.hardware.dto.DriverDTO;
+import lk.ijse.hardware.entity.Driver;
 import lk.ijse.hardware.tm.DriverTm;
 import lk.ijse.hardware.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.hardware.dao.DriverRepo;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -61,6 +65,8 @@ public class DriverFormController {
     @FXML
     private JFXTextField txtWorkTime;
 
+     public DriverBO driverBO=(DriverBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DRIVER);
+
     public void initialize() {
 
         txtId.setOnKeyPressed(event -> {
@@ -95,9 +101,9 @@ public class DriverFormController {
         ObservableList<DriverTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Driver> driverList;
-            driverList = DriverRepo.getAll();
-            for (Driver driver : driverList) {
+            List<DriverDTO> driverList;
+            driverList = driverBO.getAllDriver();
+            for (DriverDTO driver : driverList) {
                 DriverTm tm = new DriverTm(
                         driver.getD_id(),
                         driver.getName(),
@@ -110,7 +116,7 @@ public class DriverFormController {
             }
 
             tblDriver.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -139,11 +145,11 @@ public class DriverFormController {
         String d_id = txtId.getText();
 
         try {
-            boolean isDeleted = CustomerDAOImpl.delete(d_id);
+            boolean isDeleted = driverBO.deleteDriver(d_id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "driver deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -156,15 +162,15 @@ public class DriverFormController {
         String email = txtEmail.getText();
         String work_time = txtWorkTime.getText();
 
-        Driver driver = new Driver(d_id, name, tel, email,work_time);
+        DriverDTO driver = new DriverDTO(d_id, name, tel, email,work_time);
 
         try {
-            boolean isSaved = DriverRepo.save(driver);
+            boolean isSaved = driverBO.addDriver(driver);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "driver saved!").show();
                 clearFields();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -185,23 +191,23 @@ public class DriverFormController {
         String email = txtEmail.getText();
         String work_time = txtWorkTime.getText();
 
-        Driver driver = new Driver(d_id, name, tel, email,work_time);
+        DriverDTO driver = new DriverDTO(d_id, name, tel, email,work_time);
 
         try {
-            boolean isUpdated = DriverRepo.update(driver);
+            boolean isUpdated = driverBO.updateDriver(driver);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "driver updated!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     @FXML
-    void txtSearchOnAction(ActionEvent event) throws SQLException {
+    void txtSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = txtId.getText();
 
-        Driver driver = DriverRepo.searchById(id);
+        DriverDTO driver = driverBO.searchByID(id);
         if (driver != null) {
             txtId.setText(driver.getD_id());
             txtName.setText(driver.getName());

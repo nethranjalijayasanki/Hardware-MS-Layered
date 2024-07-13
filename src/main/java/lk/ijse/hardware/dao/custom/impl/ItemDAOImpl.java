@@ -96,7 +96,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
      */
-    public static boolean updateQty(List<Order_Detail> odList) throws SQLException {
+    public boolean updateQty(List<Order_Detail> odList) throws SQLException {
         String sql = "UPDATE items SET qty_on_hand = qty_on_hand - ? WHERE i_id = ?";
         PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 

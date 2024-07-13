@@ -15,9 +15,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.hardware.model.Supplier;
+import lk.ijse.hardware.bo.BOFactory;
+import lk.ijse.hardware.bo.custom.EmployeeBO;
+import lk.ijse.hardware.bo.custom.SupplierBO;
+import lk.ijse.hardware.dto.SupplierDTO;
+import lk.ijse.hardware.entity.Supplier;
 import lk.ijse.hardware.tm.SupplierTm;
-import lk.ijse.hardware.dao.SupplierRepo;
 import lk.ijse.hardware.util.Regex;
 
 import java.io.IOException;
@@ -61,6 +64,9 @@ public class SupplierFormController {
 
     @FXML
     private TextField txtTel;
+
+    public SupplierBO supplierBO=(SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SUPPLIER);
+
     public void initialize() {
 
         txtId.setOnKeyPressed(event -> {
@@ -95,9 +101,9 @@ public class SupplierFormController {
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Supplier> supplierList;
-            supplierList = SupplierRepo.getAll();
-            for (Supplier supplier : supplierList) {
+            List<SupplierDTO> supplierList;
+            supplierList = supplierBO.getAllSupplier();
+            for (SupplierDTO supplier : supplierList) {
                 SupplierTm tm = new SupplierTm(
                         supplier.getS_id(),
                         supplier.getName(),
@@ -110,7 +116,7 @@ public class SupplierFormController {
             }
 
             tblSupplier.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -138,11 +144,11 @@ public class SupplierFormController {
         String c_id = txtId.getText();
 
         try {
-            boolean isDeleted = SupplierRepo.delete(c_id);
+            boolean isDeleted = supplierBO.deleteSupplier(c_id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "supplier deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -159,13 +165,13 @@ public class SupplierFormController {
 
         try {
             isValied();
-            Supplier supplier = new Supplier(c_id, name, company, tel, email);
-            boolean isSaved = SupplierRepo.save(supplier);
+            SupplierDTO supplier = new SupplierDTO(c_id, name, company, tel, email);
+            boolean isSaved = supplierBO.addSupplier(supplier);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "supplier saved!").show();
                 clearFields();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -186,23 +192,23 @@ public class SupplierFormController {
         String tel = txtTel.getText();
         String email = txtEmail.getText();
 
-        Supplier supplier = new Supplier(s_id, name, company, tel, email);
+        SupplierDTO supplier = new SupplierDTO(s_id, name, company, tel, email);
 
         try {
-            boolean isUpdated = SupplierRepo.update(supplier);
+            boolean isUpdated = supplierBO.updateSupplier(supplier);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "supplier updated!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     @FXML
-    void txtSearchOnAction(ActionEvent event) throws SQLException {
+    void txtSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = txtId.getText();
 
-        Supplier supplier = SupplierRepo.searchById(id);
+        SupplierDTO supplier = supplierBO.searchByID(id);
         if (supplier != null) {
             txtId.setText(supplier.getS_id());
             txtName.setText(supplier.getName());
@@ -216,12 +222,12 @@ public class SupplierFormController {
 
     private void getCurrentSupplierId() {
         try {
-            String currentId = SupplierRepo.getCurrentId();
+            String currentId = supplierBO.generateNewID();
 
             String nextSupplierId = generateNextSupplierId(currentId);
             txtId.setText(nextSupplierId);
 
-        } catch (SQLException e) {
+        } catch (SQLException| ClassNotFoundException e) {
 
             throw new RuntimeException(e);
         }
